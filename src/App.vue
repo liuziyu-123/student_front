@@ -1,12 +1,36 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <Side  class="side"/>
+
+    <router-link to="/">Home</router-link>
+    
+    <router-link to="/test">Test</router-link>
   </nav>
   <router-view />
 </template>
 
+<script>
+import Side from '@/views/front/side.vue'
+ export default {
+    data () {
+      return { 
+        
+      }
+    },
+    computed: {
+      
+    },
+    components: {
+     Side
+    },
+  }
+
+</script>
+
 <style lang="scss">
+
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -27,4 +51,6 @@ nav {
     }
   }
 }
+
+
 </style>
