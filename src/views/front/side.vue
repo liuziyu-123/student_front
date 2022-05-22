@@ -1,108 +1,73 @@
 <template>
-  <el-tree-select v-model="value" :data="data">
-    <template #default="{ data: { label } }">
-      {{ label }}<span style="color: gray">(suffix)</span></template
-    >
-  </el-tree-select>
-  <el-divider />
-  use render content:
-  <el-tree-select
-    v-model="value"
-    :data="data"
-    :render-content="renderContent"
-  />
+<!--手风琴-->
+<el-tree :data="data" accordion  @node-click="handleNodeClick"   class="side"/>
 </template>
 
-<script >
-import { ref } from 'vue'
-
-const value = ref()
-
-const renderContent = (h, { data }) => {
-  return h(
-    'span',
-    {
-      style: {
-        color: '#626AEF',
-      },
-    },
-    data.label
-  )
-}
-
-const data = [
-  {
-    value: '1',
-    label: 'Level one 1',
-    children: [
-      {
-        value: '1-1',
-        label: 'Level two 1-1',
-        children: [
-          {
-            value: '1-1-1',
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Level one 2',
-    children: [
-      {
-        value: '2-1',
-        label: 'Level two 2-1',
-        children: [
-          {
-            value: '2-1-1',
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        value: '2-2',
-        label: 'Level two 2-2',
-        children: [
-          {
-            value: '2-2-1',
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: '3',
-    label: 'Level one 3',
-    children: [
-      {
-        value: '3-1',
-        label: 'Level two 3-1',
-        children: [
-          {
-            value: '3-1-1',
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        value: '3-2',
-        label: 'Level two 3-2',
-        children: [
-          {
-            value: '3-2-1',
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-]
+<script>
 export default {
     data() {
-        return {}
+        return {
+
+            data: [{
+                    label: '系统管理',
+                    children: [{
+                        label: '角色管理',router:'home'},
+                        {label: '班级管理'},
+                        {label: '师生管理'},
+                         ],
+                },
+                {
+                    label: 'Level one 2',
+                    children: [{
+                            label: 'Level two 2-1',
+                            children: [{
+                                label: 'Level three 2-1-1',
+                            }, ],
+                        },
+                        {
+                            label: 'Level two 2-2',
+                            children: [{
+                                label: 'Level three 2-2-1',
+                            }, ],
+                        },
+                    ],
+                },
+                {
+                    label: 'Level one 3',
+                    children: [{
+                            label: 'Level two 3-1',
+                            children: [{
+                                label: 'Level three 3-1-1',
+                            }, ],
+                        },
+                        {
+                            label: 'Level two 3-2',
+                            children: [{
+                                label: 'Level three 3-2-1',
+                            }, ],
+                        },
+                    ],
+                },
+            ]
+
+        }
+    },
+
+    methods:{
+       handleNodeClick(data){
+                console.log('data',JSON.stringify(data))
+              
+            },
     }
+
 }
 </script>
+
+<style>
+
+.side{
+  height: 100vh;
+}
+
+
+</style>
