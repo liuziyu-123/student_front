@@ -9,9 +9,14 @@ import 'element-plus/dist/index.css'
 //取色器
 import vcolorpicker from 'vcolorpicker'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+// createApp(App).use(VueAxios,axios)
+
 // import http, { uploadFile } from './lib/http.js';
 // Vue.prototype.$http = http;
 // Vue.prototype.$uploadFile = uploadFile; // 上传接口
 
 
-createApp(App).use(store).use(router).use(ElementPlus).use(vcolorpicker).mount("#app");
+createApp(App).use(VueAxios,axios)
+.use(store).use(router).use(ElementPlus).use(vcolorpicker).mount("#app");

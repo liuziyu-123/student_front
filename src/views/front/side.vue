@@ -12,7 +12,7 @@ export default {
                     label: '系统管理',
                     children: [{
                         label: '角色管理',router:'home'},
-                        {label: '班级管理'},
+                        {label: '班级管理',router:'About'},
                         {label: '师生管理'},
                          ],
                 },
@@ -56,6 +56,9 @@ export default {
     methods:{
        handleNodeClick(data){
                 console.log('data',JSON.stringify(data))
+                this.$router.push({
+                path: data.router
+            })
               
             },
     }
