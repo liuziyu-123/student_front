@@ -49,10 +49,6 @@ export default {
 
     methods: {
 
-       
-
-
-
         //登陆操作
         submitForm() {
             //判断传过来的参数是否为空字符串和null
@@ -84,7 +80,14 @@ export default {
                 }
 
             });
-
+            // this.data.push({
+            //              path: 'About',
+            //                  visiable: 'false'
+            //             }),
+            //             this.$emit('getLoginData', this.data);
+            // this.$router.push({
+            //     path: 'About'
+            // })
         },
 
         resetForm() {

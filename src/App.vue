@@ -1,9 +1,10 @@
 <template>
-<Top />
+
 <div v-if="loginvisble==='false'">
     <div class="app-side">
         <Side class="side" />
     </div>
+    <Top @getLoginOut="loginOutData"   />
     <div class="app-right">
         <router-view />
     </div>
@@ -43,6 +44,11 @@ export default {
             this.loginvisble = data[0].visiable
             console.log("methods==" + this.loginvisble)
 
+        },
+
+        loginOutData(data){
+             this.loginvisble = data[0].visiable
+            console.log("methods==" + this.loginvisble)
         }
     }
 }
