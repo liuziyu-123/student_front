@@ -1,13 +1,20 @@
 <template>
 
 <div v-if="loginvisble==='false'">
-    <div class="app-side">
-        <Side class="side" />
-    </div>
-    <Top @getLoginOut="loginOutData"   />
-    <div class="app-right">
-        <router-view />
-    </div>
+     <el-container>
+    <el-aside>
+        <Side/>
+    </el-aside>
+      <el-container>
+        <el-header> 
+            <Top @getLoginOut="loginOutData"   />
+        </el-header>
+        <el-main> 
+            <router-view />
+        </el-main>
+      </el-container>
+     </el-container>
+
 </div>
 <div v-if="loginvisble==='true'">
     <Login @getLoginData="loginData" />
@@ -76,11 +83,12 @@ nav {
     }
 }
 
-.app-side {
-    width: 150px;
-    height: 100%;
-    background-color: black;
-    float: left;
-
+.el-header{
+     font-size: 20px;
+    background-color: blanchedalmond;
 }
+.el-aside{
+    width:10%  !important;
+}
+
 </style>

@@ -1,13 +1,3 @@
 <template>
-  <el-select></el-select>
+  <el-pagination background layout="prev, pager, next" :total="1000" />
 </template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>

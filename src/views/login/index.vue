@@ -109,7 +109,6 @@ body {
     background-attachment: fixed;
     /*关键*/
     background-size: 100% 100%;
-    z-index: -1;
     background-size: cover;
 }
 
