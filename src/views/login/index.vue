@@ -10,9 +10,14 @@
         <input type="password" class="login-pswd" v-model="passWord" />
     </div>
 
+    <div class="pswd">
+        <label name="passWord" class="passWord">密码: </label>
+        <input type="password" class="login-pswd" v-model="passWord" />
+    </div>
+
     <el-form-item class="login-end">
-        <el-button type="primary" @click="submitForm()">Submit</el-button>
-        <el-button @click="resetForm()">Reset</el-button>
+        <el-button type="primary" @click="submitForm()">登陆</el-button>
+        <el-button type="primary" @click="reset()">重置</el-button>
     </el-form-item>
 </form>
 </template>
@@ -71,12 +76,12 @@ export default {
                             path: 'About',
                             visiable: 'false'
                         }),
-                    this.$emit('getLoginData', this.data);
+                        this.$emit('getLoginData', this.data);
                     this.$router.push({
                         path: 'About'
                     })
-                }else{
-                     this.$message.warning(res.data.result);
+                } else {
+                    this.$message.warning(res.data.result);
                 }
 
             });
@@ -90,9 +95,9 @@ export default {
             // })
         },
 
-        resetForm() {
-            this.userName = '';
-            this.passWord = '';
+        reset() {
+            this.userName="";
+            this.passWord="";
         }
 
     }

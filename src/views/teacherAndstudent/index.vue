@@ -11,6 +11,8 @@
     <el-input class="ts-input" v-model="area" placeholder="Please area" />
 
     <el-input class="ts-input" v-model="tsName" placeholder="Please tsName" />
+
+    <el-button type="success" plain  @click="register()">新增</el-button>
 </div>
 <div class="ts-table">
     <el-table :data="tableData" border style="width: 100%">
@@ -98,9 +100,12 @@ export default {
 
             console.log(data);
             this.ts = data.value
-            // console.log(data.value);
-            // console.log(data.label);
 
+        },
+        register(){
+            this.$router.push({
+                path:'register'
+            })
         }
     }
 }

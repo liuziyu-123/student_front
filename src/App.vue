@@ -17,7 +17,7 @@
 
 </div>
 <div v-if="loginvisble==='true'">
-    <Login @getLoginData="loginData" />
+    <Login @getLoginData="loginData" />  
 </div>
 </template>
 
