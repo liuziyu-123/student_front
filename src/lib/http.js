@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import App from "./App.vue";
+import App from "../App.vue";
 import qs from "qs";
 import axios from "axios";
 import router from '../router';
@@ -45,24 +45,12 @@ function instance(config) {
         if (sendEmailCode != -1) {
             config.timeout = 10000; // 10s
         }
-
-        // if (user.state.Authorization && config.withCredentials != false) {//用户登录时每次请求将token放入请求头中
-        config.headers["Authorization"] = localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '';
-        config.headers['domain'] = window.location.host.split(":")[0];
-        // }
-        //  else if (config.withCredentials != false) {
-        //   window.location.href=window.location.origin+'/login/'
-        // }
-        // if (config['Content-Type'] === 'application/x-www-form-urlencoded;') {
-        //   config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-        //   config['transformRequest'] = function(obj) {
-        //     var str = [];
-        //     for (var p in obj)
-        //       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-        //     return str.join("&")
-        //   };
-        // }
-        //config.header['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+        console.log("user.state.token=="+user.state.token)
+        console.log("config.withCredentials=="+config.withCredentials)
+         if (user.state.token && config.withCredentials != false) {//用户登录时每次请求将token放入请求头中
+            console.log("插入请求头")
+        config.headers["token"] = localStorage.getItem('token') ? localStorage.getItem('token') : '';
+         }
 
         return config;
     }, function(error) {
@@ -92,7 +80,7 @@ function instance(config) {
                             return message.warning('您没有权限访问，请退出登录后重试！')
                         }
                         message.warning('登录过期，请重新登录')
-                        localStorage.removeItem('Authorization')
+                        localStorage.removeItem('token')
                         
                         router.push({
                             name: 'Home',
@@ -100,27 +88,9 @@ function instance(config) {
                                 refresh: true
                             }
                         })
-                        // 
-                        // if (error.response.config.getPortal != false) {
-                        //     message.warning('登录过期，请重新登录')
-                        //     this.$router.push({
-                        //         name: 'login'
-                        //     })
-                        //         // axios({
-                        //         //   type:'get',
-                        //         //   url: window.location.origin+'/portalC30/login/',
-                        //         //   dataType: 'jsonp',
-                        //         //   timeout: 1000
-                        //         // }).then(res => {
-                        //         //   this.$router.push({
-                        //         //     name: 'login'
-                        //         //   })
-                        //         // }).catch(res => {
-                        //         //   // window.location.href=window.location.origin+'/fdsfdsfsdfsfsfsdf/'
-                        //         // })
-                        // }
+                      
                     } else {
-                        localStorage.removeItem('Authorization')
+                        localStorage.removeItem('token')
                     }
                 } else if (error && error.response) {
                     return Promise.reject({

@@ -2,12 +2,12 @@
 
 <div v-if="loginvisble==='false'">
      <el-container>
-    <el-aside>
-        <Side/>
+    <el-aside v-show="this.hiddenSide">
+            <Side/>
     </el-aside>
       <el-container>
         <el-header> 
-            <Top @getLoginOut="loginOutData"   />
+            <Top @getLoginOut="loginOutData"  @hiddenSidefunction="hiddenSideFun"      :hiddenSide='hiddenSide'   />
         </el-header>
         <el-main> 
             <router-view />
@@ -29,6 +29,7 @@ export default {
     data() {
         return {
             loginvisble: 'true',
+            hiddenSide:false
         }
     },
     computed: {
@@ -56,6 +57,11 @@ export default {
         loginOutData(data){
              this.loginvisble = data[0].visiable
             console.log("methods==" + this.loginvisble)
+        },
+
+        hiddenSideFun(data){
+            this.hiddenSide=data;
+            console.log(data);
         }
     }
 }

@@ -12,23 +12,22 @@
 
     <el-input class="ts-input" v-model="tsName" placeholder="Please tsName" />
 
-    <el-button type="success" plain  @click="register()">新增</el-button>
+    <el-button type="success" plain @click="register()">新增</el-button>
 </div>
 <div class="ts-table">
     <el-table :data="tableData" border style="width: 100%">
         <el-table-column prop="no" label="序号" width="150" />
-        <el-table-column prop="tsNo" label="工号" width="150" />
-        <el-table-column prop="tsName" label="姓名" />
-        <el-table-column prop="tsSex" label="性别" width="100" />
-        <el-table-column prop="identity" label="身份" width="100"/>
-        <el-table-column prop="address" label="地址" width="180"/>
+        <el-table-column prop="userNo" label="工号" width="150" />
+        <el-table-column prop="userName" label="姓名" />
+        <el-table-column prop="sex" label="性别" width="100" />
+        <el-table-column prop="identity" label="身份" width="100" />
+        <el-table-column prop="address" label="地址" width="180" />
         <el-table-column prop="birthday" label="生日" />
     </el-table>
     <div class="ts-paging">
-            <Paging />
+        <Paging />
     </div>
- 
-    
+
 </div>
 </template>
 
@@ -36,7 +35,7 @@
 import Paging from '../../components/paging/index.vue'
 export default {
 
- components: {
+    components: {
         Paging
     },
     data() {
@@ -55,44 +54,12 @@ export default {
                     label: '学生',
                 }
             ],
-            tableData: [{
-                    no: '1',
-                    tsNo: '223323',
-                    tsName: '刘梓毓',
-                    tsSex:'男',
-                    identity:'学生',
-                    address:'安徽省合肥市蜀山区',
-                    birthday:'2022-06-15'
-                },
-                {
-                    no: '2',
-                    tsNo: '3423',
-                    tsName: 'Tom',
-                    tsSex:'男',
-                    identity:'教师',
-                    address:'安徽省合肥市蜀山区',
-                    birthday:'2022-06-15'
-                },
-                {
-                    no: '3',
-                    tsNo: '6454',
-                    tsName: 'Join',
-                    tsSex:'男',
-                    identity:'学生',
-                    address:'安徽省合肥市蜀山区',
-                    birthday:'2022-06-15'
-                },
-                {
-                    no: '4',
-                    tsNo: '756',
-                    tsName: '刘梓毓',
-                    tsSex:'男',
-                    identity:'学生',
-                    address:'安徽省合肥市蜀山区',
-                    birthday:'2022-06-15'
-                },
-            ]
+            tableData: []
         }
+    },
+
+    mounted() {
+        this.selectTeacherOrStudent();
     },
 
     methods: {
@@ -102,11 +69,58 @@ export default {
             this.ts = data.value
 
         },
-        register(){
+        register() {
             this.$router.push({
-                path:'register'
+                path: 'register'
             })
-        }
+        },
+        selectTeacherOrStudent() {
+            let tsVoData = {
+                identity: this.ts == '教师' ? 0 : 1,
+                province: this.province,
+                city: this.city,
+                area: this.area,
+                userName: this.tsName,
+                userNo: this.tsName
+            }
+
+            let jsonData = JSON.stringify(tsVoData)
+
+            //   console.log(params,"6666666");
+
+            this.$http.get('/api/user/tsInfo', {
+                params: {
+                    page: 1,
+                    pageSize: 10,
+                    tsVoData: jsonData
+                }
+            }).then((res) => {
+                res.result.forEach((element,index) => {
+                    this.tableData.push({
+                        no:index+1,
+                        age: element.age,
+                        area: element.area,
+                        birthday: element.birthday,
+                        city: element.city,
+                        createBy: element.createBy,
+                        createTime: element.createTime,
+                        id: element.id,
+                        identity:element.identity,
+                        mobile: element.mobile,
+                        modifyBy: element.modifyBy,
+                        modifyTime: element.modifyTime,
+                        password: element.password,
+                        province: element.province,
+                        address:element.province+element.city+element.area,
+                        sex: element.sex,
+                        userName: element.userName,
+                        userNo: element.userNo
+                    })
+                });
+
+                console.log("this.tableData",this.tableData);
+            })
+        },
     }
 }
 </script>
@@ -135,7 +149,7 @@ export default {
     position: relative;
 }
 
-.ts-paging{
+.ts-paging {
     text-align: center;
     margin-top: 30px;
 }

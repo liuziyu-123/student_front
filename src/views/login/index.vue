@@ -10,10 +10,10 @@
         <input type="password" class="login-pswd" v-model="passWord" />
     </div>
 
-    <div class="pswd">
+    <!-- <div class="pswd">
         <label name="passWord" class="passWord">密码: </label>
         <input type="password" class="login-pswd" v-model="passWord" />
-    </div>
+    </div> -->
 
     <el-form-item class="login-end">
         <el-button type="primary" @click="submitForm()">登陆</el-button>
