@@ -34,6 +34,35 @@ const routes = [
     import( "../views/teacherAndstudent/index.vue"),
   },
   {
+    path: "/studentCourse",
+    name: "studentCourse",
+    component: () =>
+    import( "../views/student/course/index.vue"),
+  },
+
+  {
+    path: "/teacherCourse",
+    name: "teacherCourse",
+    component: () =>
+    import( "../views/teacher/course/index.vue"),
+  },
+
+  {
+    path: "/subject",
+    name: "subject",
+    component: () =>
+    import( "../views/subject/index.vue"),
+  },
+
+  {
+    path: "/grade",
+    name: "grade",
+    component: () =>
+    import( "../views/grade/index.vue"),
+  },
+
+
+  {
     path: "/about",
     name: "about",
     // route level code-splitting

@@ -1,5 +1,8 @@
 <template>
-<form class="userForm">
+
+
+    <div class="ppp">
+        <form class="userForm">
     <div class="user">
         <label name="userName" class="userName">用户名:</label>
         <input type="text" class="login-user" v-model="userName" />
@@ -19,12 +22,11 @@
         <el-button type="primary" @click="submitForm()">登陆</el-button>
         <el-button type="primary" @click="reset()">重置</el-button>
     </el-form-item>
-</form>
+    </form>
+    </div>
 </template>
 
 <script>
-// const axios = require('axios');
-
 export default {
     data() {
         return {
@@ -66,12 +68,15 @@ export default {
                 mobile: this.userName,
                 password: this.passWord
             }
+
+            let jsonData = JSON.stringify(data)
             //post 请求login登录接口
-            this.axios.post('/api/user/login', data).then((res) => {
+
+            this.$http.post('/api/user/login', jsonData).then((res) => {
                 //打印返回的token
-                console.log("res.data.result", res.data.result);
-                if (res.data.code == 200) {
-                    localStorage.setItem("token", res.data.result);
+               // console.log("res.data.result", res.data.result);
+                if (res.code == 200) {
+                    localStorage.setItem("token", res.result);
                     this.data.push({
                             path: 'About',
                             visiable: 'false'
@@ -81,18 +86,11 @@ export default {
                         path: 'About'
                     })
                 } else {
-                    this.$message.warning(res.data.result);
+                    this.$message.warning(res.result);
                 }
 
             });
-            // this.data.push({
-            //              path: 'About',
-            //                  visiable: 'false'
-            //             }),
-            //             this.$emit('getLoginData', this.data);
-            // this.$router.push({
-            //     path: 'About'
-            // })
+        
         },
 
         reset() {
@@ -106,22 +104,25 @@ export default {
 </script>
 
 <style>
-body {
-    margin: 0px;
-    padding: 0px;
+.ppp {
+    width: 100%;
+    height: 100vh;
     background-image: url('../../assets/loginBack.jpg');
     background-repeat: no-repeat;
-    background-attachment: fixed;
     /*关键*/
     background-size: 100% 100%;
     background-size: cover;
+    position: relative;
 }
 
 .userForm {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     border: 2px solid red;
     width: 50%;
     height: 200px;
-    margin: 200px auto;
+    transform: translate(-50%, -50%);
 }
 
 .user {

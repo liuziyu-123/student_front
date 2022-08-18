@@ -1,58 +1,79 @@
 <template>
-  <el-pagination background layout="prev, pager, next" :total="10" />
+<el-pagination background  layout="prev, pager, next, jumper,sizes,total" 
+:page-sizes="[2, 3, 5, 10, 50, 100]"
+:total="totalCount" 
+:current-page="curPage"
+:pager-count="pageSize"
+@size-change="handleSizeChange" 
+@current-change="handleCurrentChange" />
+
 </template>
 
 <script>
-
-
-
 export default {
 
+    data() {
+        return {
+           InfoTotal:100,
+           msgPage:1,
+           pageSize:10
+        }
+    },
 
-  data(){
-    return {
-        list:[1,2,3,4,5],
-        pagination: {
-        pageSizeOptions: ['10', '20', '50', '100', '200'],
-        showQuickJumper: true,
-        showSizeChanger: true,
-        hideOnSinglePage: false,
-        showTotal(total) {
-          return `共 ${total} 条`;
-        },
-        onShowSizeChange: (current, pageSize) => {
-          this.pagination.current = current;
-          this.pagination.pageSize = pageSize;
-        },
-        onChange: (current, pageSize) => {
-          this.pagination.current = current;
-          this.pagination.pageSize = pageSize;
-        },
-        buildOptionText(props) {
-          return props.value + '条/页';
-        },
-        current: 1,
-        pageSize: 10,
-        total: 0
+    props:{
+      totalCount:{
+        type:Number,
+        default:0
       },
+      curPage:{
+        type:Number,
+        default:1
+      },
+      pageSize:{
+        type:Number,
+        default:10
+      },
+      totalPages:{
+        type:Number,
+        default:1
+      }
+
+    },
+
+    methods: {
+
+        handleSizeChange(val) {
+            console.log("sizeChange", val);
+            this.pageSize=val
+             let data={}
+            data.push(
+              page=this.msgPage,
+              pageSize=this.pageSize
+            )
+            this.$emit("userList",data)
+        },
+        handleCurrentChange(val) {
+            console.log("currentChange", val);
+            this.msgPage=val
+            let data=[]
+            data.push({
+              page:this.msgPage,
+              pageSize:this.pageSize
+            })
+            this.$emit("userList",data)
+            
+        }
+
     }
-  }
-
-
 }
 </script>
 
 <style>
-.left-square{
-   display: inline-block;
-}
-
-.el-row{
+.left-square {
     display: inline-block;
 }
 
-
-
-
-
+.el-row {
+    display: inline-block;
+}
 </style>

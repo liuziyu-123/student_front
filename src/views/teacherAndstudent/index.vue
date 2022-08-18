@@ -1,16 +1,26 @@
 <template>
 <div class="ts-top-select">
+    <!--教师，学生-->
     <el-select v-model="ts" class="m-2" placeholder="Select" size="large">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" @click="teacherOrStudent(item)" />
     </el-select>
 
-    <el-input class="ts-input" v-model="province" placeholder="Please province" />
+    <el-input class="ts-input" v-model="tsName" placeholder="请输入名称" />
+    
+    <!--省-->
+    <el-select v-model="provinceName" class="m-2" placeholder="Select" size="large"  @change="getProvince">
+        <el-option v-for="item in provinceList" :key="item.id" :label="item.name" :value="item.name" />
+    </el-select>
+     <!--市-->
+    <el-select v-model="cityName" class="m-2" placeholder="Select"  :disabled="provinceName === 1" size="large"  @change="getCity">
+        <el-option v-for="item in cityList" :key="item.id"    :label="item.name" :value="item.name"  />
+    </el-select>
+     <!--区-->
+    <el-select v-model="areaName" class="m-2" placeholder="Select" size="large"  @change="getArea">
+        <el-option v-for="item in areaList" :key="item.id"   :disabled="cityName === undefined" :label="item.name" :value="item.name"  />
+    </el-select>
 
-    <el-input class="ts-input" v-model="city" placeholder="Please city" />
-
-    <el-input class="ts-input" v-model="area" placeholder="Please area" />
-
-    <el-input class="ts-input" v-model="tsName" placeholder="Please tsName" />
+    
 
     <el-button type="success" plain @click="register()">新增</el-button>
 </div>
@@ -25,9 +35,8 @@
         <el-table-column prop="birthday" label="生日" />
     </el-table>
     <div class="ts-paging">
-        <Paging />
+        <Paging  @userList="userList"/>
     </div>
-
 </div>
 </template>
 
@@ -40,58 +49,82 @@ export default {
     },
     data() {
         return {
-            ts: '教师',
-            province: '安徽省',
-            city: '合肥市',
-            area: '蜀山区',
+            page:1,
+            pageSize:10,
+            ts: '全部',
+            provinceName: 1,
+            cityName: undefined,
+            areaName: undefined,
             tsName: '',
-            options: [{
-                    value: '教师',
+            options: [
+                 {
+                    value: '',
+                    label: '全部',
+                },
+                
+                {
+                    value: '0',
                     label: '教师',
                 },
                 {
-                    value: '学生',
+                    value: '1',
                     label: '学生',
                 }
             ],
+            provinceList:[],
+            cityList:[],
+            areaList:[],
             tableData: []
         }
     },
 
     mounted() {
+
+       // console.log(provinceName == undefined)
+        this.getAddressProvince();
         this.selectTeacherOrStudent();
     },
 
     methods: {
+        //点击页码所触发的方法
+        userList(data){
+            console.log(data)
+            this.page=data[0].page
+            this.pageSize=data[0].pageSize
+            this.selectTeacherOrStudent()
+        },
+
+        //切换身份
         teacherOrStudent(data) {
 
             console.log(data);
             this.ts = data.value
-
+            this.selectTeacherOrStudent()
         },
+        //跳转到新增页面
         register() {
             this.$router.push({
                 path: 'register'
             })
         },
+
+        //获取用户列表
         selectTeacherOrStudent() {
+            this.tableData=[]
             let tsVoData = {
-                identity: this.ts == '教师' ? 0 : 1,
+                identity: this.ts=='全部' ? '' : this.ts,
                 province: this.province,
                 city: this.city,
                 area: this.area,
                 userName: this.tsName,
                 userNo: this.tsName
             }
-
             let jsonData = JSON.stringify(tsVoData)
-
-            //   console.log(params,"6666666");
 
             this.$http.get('/api/user/tsInfo', {
                 params: {
-                    page: 1,
-                    pageSize: 10,
+                    page: this.page,
+                    pageSize: this.pageSize,
                     tsVoData: jsonData
                 }
             }).then((res) => {
@@ -121,6 +154,65 @@ export default {
                 console.log("this.tableData",this.tableData);
             })
         },
+
+
+        //获取所有省份
+        getAddressProvince(){
+            
+             this.$http.get('/api/user/getProvince',{
+                params:{
+
+                }
+             }).then((res)=>{
+                this.provinceList=res.result
+                console.log(res)
+
+             })
+        },
+
+        getProvince(){
+             console.log("1111" + this.provinceName)
+             console.log(this.provinceName == undefined)
+            this.cityName = undefined;
+            this.areaName = undefined;
+            this.getAddressCity(this.provinceName);
+
+           
+        },
+
+        //获取某省的所有市
+        getAddressCity(provinceName){
+           
+             this.$http.get('/api/user/getCity',{
+                params:{
+                    provinceName:provinceName
+                }
+             }).then((res)=>{
+                this.cityList=res.result
+                console.log(res)
+
+             })
+        },
+
+
+        //获取某市的地区
+        getArea(){
+             this.$http.get('/api/user/getArea',{
+                params:{
+
+                }
+             }).then((res)=>{
+                this.areaList=res.result
+                console.log(res)
+
+             })
+        }
+
+
+
+
+
+
     }
 }
 </script>

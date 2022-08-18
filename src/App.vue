@@ -2,14 +2,14 @@
 
 <div v-if="loginvisble==='false'">
      <el-container>
-    <el-aside v-show="this.hiddenSide">
+    <el-aside v-show="this.hiddenSide" >
             <Side/>
     </el-aside>
       <el-container>
         <el-header> 
             <Top @getLoginOut="loginOutData"  @hiddenSidefunction="hiddenSideFun"      :hiddenSide='hiddenSide'   />
         </el-header>
-        <el-main> 
+        <el-main style="padding:0"> 
             <router-view />
         </el-main>
       </el-container>
@@ -68,6 +68,10 @@ export default {
 </script>
 
 <style lang="scss">
+* {
+    margin: 0;
+    padding: 0;
+}
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
