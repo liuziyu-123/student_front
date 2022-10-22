@@ -1,5 +1,6 @@
 <template>
-<el-pagination background  layout="prev, pager, next, jumper,sizes,total" 
+<el-pagination style="margin-left: 50%;
+    transform: translate(-50%,50%);" background  layout="prev, pager, next, jumper,sizes,total" 
 :page-sizes="[2, 3, 5, 10, 50, 100]"
 :total="totalCount" 
 :current-page="curPage"
@@ -45,22 +46,26 @@ export default {
         handleSizeChange(val) {
             console.log("sizeChange", val);
             this.pageSize=val
-             let data={}
-            data.push(
-              page=this.msgPage,
-              pageSize=this.pageSize
-            )
-            this.$emit("userList",data)
+           let data={
+              page:this.msgPage,
+              pageSize:this.pageSize
+            }
+            
+            this.$emit("pageList",data)
         },
         handleCurrentChange(val) {
             console.log("currentChange", val);
             this.msgPage=val
-            let data=[]
-            data.push({
+            let data={
               page:this.msgPage,
               pageSize:this.pageSize
-            })
-            this.$emit("userList",data)
+            }
+            // let data=[]
+            // data.push({
+            //   page:this.msgPage,
+            //   pageSize:this.pageSize
+            // })
+            this.$emit("pageList",data)
             
         }
 

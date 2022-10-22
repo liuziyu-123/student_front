@@ -79,6 +79,9 @@ export default {
     text-align: center;
     color: #2c3e50;
 }
+.el-container{
+    height: 100vh;
+}
 
 nav {
     padding: 30px;

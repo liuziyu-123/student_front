@@ -3,7 +3,7 @@
     <list theme="outline" class="mulu" size="24" fill="#333" @click="hiddenSidefun()" />
     学生管理系统
 
-    <el-button text @click="open()">退出登录</el-button>
+    <el-button size="medium" class="out"  text @click="open()">退出登录</el-button>
 
 </div>
 </template>
@@ -99,9 +99,10 @@ export default {
     background-color: blanchedalmond;
 }
 
-.el-button {
+.out {
     float: right;
-    height: 50px;
-    line-height: 50px;
+    font-size:16px !important;
+    height: 60px !important;
+   
 }
 </style>

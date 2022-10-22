@@ -12,7 +12,7 @@ export default {
                     label: '系统管理',
                     children: [{
                         label: '角色管理',router:'home'},
-                        {label: '班级管理',router:'about'},
+                        {label: '班级管理',router:'clas'},
                         {label: '师生管理',router:'ts'},
                         {label: '学科管理',router:'subject'},
                          {label: '年级管理',router:'grade'},
@@ -71,6 +71,7 @@ export default {
 }
 
 .el-tree{
+
     background-color: burlywood !important;
 }
 .el-tree-node__label{

@@ -3,22 +3,39 @@
 <div style="height: 40px; border:1px solid red">
 
     <search class="search" theme="outline" size="24" fill="#333" @click="getSubjectList()" />
-    <el-input class="subjectName" placeholder="请输入学科名称" v-model="subjectName" />
-    <el-button type="primary" class="createSubject" @click=" conversion=0, drawer = true">
-        创建学科
+    <el-input class="clasCss" placeholder="请输入班级名称" v-model="className" />
+    <el-button type="primary" class="createClass" @click=" conversion=0, drawer = true">
+        创建班级
     </el-button>
 </div>
-<el-drawer v-model="drawer" :title="this.conversion==0 ? '创建学科': '修改学科'" :with-header="true">
+<el-drawer v-model="drawer" :title="this.conversion==0 ? '创建班级': '修改班级'" :with-header="true">
 
-    <label style="margin-right:20px">学科名称:</label>
-    <el-input style="width:250px; border-radius:20px" placeholder="请输入学科名称" v-model="subjectName"></el-input>
+    <label style="margin-right:20px">选择年级</label>
+    <el-select v-model="gradeName" placeholder="请选择" @change="getGrade" style="width:250px; border-radius:20px">
+    <el-option
+      v-for="item in gradeDate"
+      :key="item.value"
+      :label="item.value"
+      :value="item.value">
+    </el-option>
+  </el-select>
     <br />
     <br />
     <br />
-    <el-form-item label="是否生效:" style="margin-left:57px">
-        <el-switch v-model="ineffect" style="margin-left:20px" />
-    </el-form-item>
-    <el-button @click="drawer=false">取消</el-button>
+    <label style="margin-right:20px">选择班主任</label>
+   <el-select v-model="headTeacher" placeholder="请选择"  @change="getGrade" style="margin-left:20px">
+    <el-option
+      v-for="item in headTeacherDate"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
+    <br>
+    <br>
+    <br>
+    <br>
+    <el-button @click="drawer=false" >取消</el-button>
     <el-button @click="this.conversion==0 ? insertSubject() :updateSubject()">确定</el-button>
 
 </el-drawer>
@@ -26,8 +43,8 @@
 <div class="ts-table">
     <el-table :data="tableData" border style="width: 100%">
         <el-table-column prop="no" label="序号" width="100" align="center" />
-        <el-table-column prop="subjectNo" label="学科编号" width="250" align="center" />
-        <el-table-column prop="subjectName" label="学科名称" align="center" />
+        <el-table-column prop="subjectNo" label="班级编号" width="250" align="center" />
+        <el-table-column prop="subjectName" label="班级名称" align="center" />
         <el-table-column prop="createBy" label="创建人" width="150" align="center" />
         <el-table-column prop="createTime" label="创建时间" width="200" align="center" />
         <el-table-column label="是否生效" width="180" align="center">
@@ -39,15 +56,7 @@
             <template v-slot="scope">
                 <el-button size="medium" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-button size="medium" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                <!-- <el-popover placement="top" width="160" v-model="visible">
-                    <p>这是一段内容这是一段内容确定删除吗？</p>
-                    <div style="text-align: right; margin: 0">
-                        <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-                        <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
-                    </div>
-                    <el-button v-slot="scope">删除</el-button>
-
-                </el-popover> -->
+               
             </template>
         </el-table-column>
     </el-table>
@@ -58,7 +67,7 @@
 </template>
 
 <script>
-import Paging from '../../components/paging/index.vue';
+import Paging from '../../../components/paging/index.vue';
 import {
     Search
 } from '@icon-park/vue-next';
@@ -70,18 +79,47 @@ export default {
     data() {
         return {
             conversion: 0, //0代表创建   1代表修改
-            subjectName: '',
-            courseName: "",
+            className: '',
             drawer: false,
             ineffect: true,
             tableData: [], //表格数据
             totalCount: 0,
-            curPage: 1,
-            pageSize: 10,
+            curPage: 0,
+            pageSize: 0,
             totalPages: 0,
             updateSubjectData: '', //科学修改时，保存的数据
-            visible: false,
-            subjectIds:[]
+            gradeDate:[{
+                value:'一年级',
+            },{
+                value:'二年级',
+            },{
+                value:'三年级',
+            },{
+                value:'四年级',
+            },{
+                value:'五年级',
+            },{
+                value:'六年级',
+            },{
+                value:'七年级',
+            },{
+                value:'八年级',
+            },{
+                value:'九年级',
+            },{
+                value:'高一',
+            },{
+                value:'高二',
+            },{
+                value:'高三',
+            }],
+            gradeName:'',
+             headTeacher:'',
+            headTeacherDate:[{
+                value:'43423423',
+                label:'石丽平'
+            },{value:'45434344',
+                label:'张玉敏'}],
 
         }
     },
@@ -91,6 +129,17 @@ export default {
     },
 
     methods: {
+
+            getGrade(item){
+                console.log(item);
+            },
+
+
+
+
+
+
+        //================================================
         //修改
         handleEdit(index, row) {
             console.log(index, row);
@@ -109,7 +158,7 @@ export default {
                 type: 'warning',
                 center: true
             }).then(() => {
-                
+
               this.deleteSubject(row.id);   
 
             }).catch(() => {
@@ -178,22 +227,18 @@ export default {
 
         //删除学科信息
          deleteSubject(subjectId) {
-            this.subjectIds=[];
-             console.log("dddd"+this.subjectIds);
-            this.subjectIds.push(subjectId);
-            let params=JSON.stringify(this.subjectIds);
-            this.$http.post('/api/subject/deleteSubject',params,
-             { 
+            this.$http.post('/api/subject/deleteSubject', {
+                subjectId:subjectId
+            },{
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/x-www-form-urlencoded"
                 }
-            }   
-            ).then((res) => {
+            } ).then((res) => {
                 console.log(res, "22");
                 if (res.code == 200) {
                     this.$message({
                         type: 'success',
-                        message: '删除成功!' 
+                        message: '删除成功!'
                     });
                     this.getSubjectList();
                 }else{
@@ -242,7 +287,11 @@ export default {
 </script>
 
 <style>
-.subjectName {
+
+.el-button{
+    align-items: center;
+}
+.clasCss {
     width: 200px;
     height: 40px;
     float: right;
@@ -267,7 +316,7 @@ export default {
     margin-top: 30px;
 }
 
-.createSubject {
+.createClass {
     float: left;
     height: 40px;
     background-color: blue;
