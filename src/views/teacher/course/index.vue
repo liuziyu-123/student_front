@@ -10,8 +10,8 @@
 </div>
 <el-drawer v-model="drawer" title="createCourse" :with-header="true">
     <label style="margin-right:20px">所选分类:</label>
-    <el-select style="width:250px; border-radius:20px">
-        <el-option />
+    <el-select v-model="gradeName"   @change="getGradeName"   style="width:250px; border-radius:20px">
+        <el-option  v-for="item in gradeDate" :key="item.value" :label="item.value" :value="item.value" />
     </el-select>
     <br />
     <br />
@@ -62,7 +62,39 @@ export default {
         return {
             courseName: "",
             drawer: false,
-            ineffect: 0
+            ineffect: 0,
+             gradeDate:[{
+                value:'一年级',
+            },{
+                value:'二年级',
+            },{
+                value:'三年级',
+            },{
+                value:'四年级',
+            },{
+                value:'五年级',
+            },{
+                value:'六年级',
+            },{
+                value:'七年级',
+            },{
+                value:'八年级',
+            },{
+                value:'九年级',
+            },{
+                value:'高一',
+            },{
+                value:'高二',
+            },{
+                value:'高三',
+            }],
+            gradeName:""
+
+        }
+    },
+    methods:{
+        getGradeName(item){
+            this.gradeName=item
         }
     }
 

@@ -37,8 +37,8 @@
         </el-table-column>
         <el-table-column label="操作" align="center">
             <template v-slot="scope">
-                <el-button size="medium" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                <el-button size="medium" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                <el-button size="default" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 <!-- <el-popover placement="top" width="160" v-model="visible">
                     <p>这是一段内容这是一段内容确定删除吗？</p>
                     <div style="text-align: right; margin: 0">

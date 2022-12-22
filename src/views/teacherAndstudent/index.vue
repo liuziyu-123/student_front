@@ -91,8 +91,8 @@
         <el-table-column prop="birthday" label="生日" />
         <el-table-column label="操作" align="center">
             <template v-slot="scope">
-                <el-button size="medium" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                <el-button size="medium" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                <el-button size="default" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button size="default" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
