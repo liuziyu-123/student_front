@@ -9,9 +9,23 @@
     </el-button>
 </div>
 <el-drawer v-model="drawer" title="createCourse" :with-header="true">
+    <label style="margin-right:20px">所选年级:</label>
+    <el-select  v-model="gradeId" placeholder="请选择"  @change="getGradeId"  style="width:250px; border-radius:20px">
+        <el-option v-for="item in gradeDate" :key="item.id" :label="item.gradeName" :value="item.id"/>
+    </el-select>
+    <br />
+    <br />
+    <br />
+    <label style="margin-right:20px">所选班级:</label>
+    <el-select v-model="classId" placeholder="请选择" style="width:250px; border-radius:20px">
+        <el-option v-for="item in classData" :key="item.id" :label="item.className" :value="item.id"/>
+    </el-select>
+    <br />
+    <br />
+    <br />
     <label style="margin-right:20px">所选分类:</label>
-    <el-select v-model="gradeName"   @change="getGradeName"   style="width:250px; border-radius:20px">
-        <el-option  v-for="item in gradeDate" :key="item.value" :label="item.value" :value="item.value" />
+    <el-select v-model="gradeName" @change="getGradeName" style="width:250px; border-radius:20px">
+        <el-option v-for="item in gradeDate" :key="item.value" :label="item.value" :value="item.value" />
     </el-select>
     <br />
     <br />
@@ -22,13 +36,7 @@
     <br />
     <br />
     <br />
-    <label style="margin-right:20px">所选班级:</label>
-    <el-select style="width:250px; border-radius:20px">
-        <el-option />
-    </el-select>
-    <br />
-    <br />
-    <br />
+
     <!--开始时间和结束时间-->
     <label style="margin-right:20px">开始时间:</label>
     <el-date-picker style="width:250px; border-radius:20px"></el-date-picker>
@@ -41,7 +49,7 @@
     <br />
     <br />
     <el-form-item label="是否生效:" style="margin-left:57px">
-        <el-switch v-model="ineffect"  style="margin-left:20px" />
+        <el-switch v-model="ineffect" style="margin-left:20px" />
     </el-form-item>
 </el-drawer>
 
@@ -60,41 +68,58 @@ export default {
     },
     data() {
         return {
-            courseName: "",
+            courseName: '',
             drawer: false,
             ineffect: 0,
-             gradeDate:[{
-                value:'一年级',
-            },{
-                value:'二年级',
-            },{
-                value:'三年级',
-            },{
-                value:'四年级',
-            },{
-                value:'五年级',
-            },{
-                value:'六年级',
-            },{
-                value:'七年级',
-            },{
-                value:'八年级',
-            },{
-                value:'九年级',
-            },{
-                value:'高一',
-            },{
-                value:'高二',
-            },{
-                value:'高三',
-            }],
-            gradeName:""
+            gradeDate: [],  //年级信息
+            classData:[],   //班级信息
+            gradeId: '',
+            classId:''
 
         }
     },
-    methods:{
-        getGradeName(item){
-            this.gradeName=item
+
+    mounted(){
+        this.getGradeInfo();
+    },
+    methods: {
+        getGradeId(item) {
+            this.gradeId = item
+            this.getClassInfo(item)
+        },
+        //获取年级信息
+        getGradeInfo() {
+            this.$http.get('api/grade/selectGrade', {
+                params: {
+                    gradeName: '',
+                    gradeDirectorId: '',
+                    page:0,
+                    pageSize:0
+                }
+            }).then((res) => {
+                this.gradeDate=[];
+                res.result.list.forEach(item=>{
+                    this.gradeDate.push({
+                        ...item
+                    })      
+                })
+            })
+        },
+
+        //获取年级Id 用于获取该年级的班级
+        getClassInfo(gradeId){
+               this.$http.get('api/class/getClassByGradeId', {
+                params: {
+                    gradeId:gradeId
+                }
+            }).then((res) => {
+                this.classData=[];
+                res.result.forEach(item=>{
+                    this.classData.push({
+                        ...item
+                    })      
+                })
+            }) 
         }
     }
 

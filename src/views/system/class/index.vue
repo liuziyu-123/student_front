@@ -244,7 +244,7 @@ export default {
             })
         },
 
-        //获取年级信息
+        //获取班级信息
         getClassInfo() {
             this.$http.get('api/class/selectAllClass', {
                 params: {

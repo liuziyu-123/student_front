@@ -74,6 +74,7 @@
         this.imagePreviewUrls.splice(index, 1)
       }
       // 执行删除
+      
     },
 
   }
