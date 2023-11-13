@@ -101,7 +101,8 @@ nav {
     background-color: blanchedalmond;
 }
 .el-aside{
-    width:10%  !important;
+    width:9%  !important;
+    font-size: 18;
 }
 
 </style>

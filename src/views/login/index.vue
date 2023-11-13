@@ -21,6 +21,7 @@
     <el-form-item class="login-end">
         <el-button type="primary" @click="submitForm()">登陆</el-button>
         <el-button type="primary" @click="reset()">重置</el-button>
+        <el-button type="primary" @click="register()">注册</el-button>
     </el-form-item>
     </form>
     </div>
@@ -83,7 +84,7 @@ export default {
                         }),
                         this.$emit('getLoginData', this.data);
                     this.$router.push({
-                        path: 'About'
+                        path: 'home'
                     })
                 } else {
                     this.$message.warning(res.result);
@@ -96,6 +97,12 @@ export default {
         reset() {
             this.userName="";
             this.passWord="";
+        },
+
+        register() {
+            this.$router.push({
+                        path: 'register'
+                    })
         }
 
     }
@@ -150,6 +157,11 @@ export default {
 }
 
 .login-end {
-    margin: 22px 300px;
+    margin-top: 22px;
+    width: 100%;
+}
+
+.login-end button{
+      margin-left:40%
 }
 </style>

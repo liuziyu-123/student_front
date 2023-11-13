@@ -4,35 +4,35 @@
 
     <search class="search" theme="outline" size="24" fill="#333" />
     <el-input class="courseName" placeholder="请输入课程名称" v-model="courseName" />
-    <el-button type="primary" class="createCourse" @click="drawer = true">
+    <el-button type="primary" class="createCourse" @click="drawer = true,getSubjectInfo()">
         创建课程
     </el-button>
 </div>
 <el-drawer v-model="drawer" title="createCourse" :with-header="true">
     <label style="margin-right:20px">所选年级:</label>
-    <el-select  v-model="gradeId" placeholder="请选择"  @change="getGradeId"  style="width:250px; border-radius:20px">
-        <el-option v-for="item in gradeDate" :key="item.id" :label="item.gradeName" :value="item.id"/>
+    <el-select v-model="gradeName" placeholder="请选择年级" @change="getGradeId" style="width:250px; border-radius:20px">
+        <el-option v-for="item in gradeData" :key="item.id" :label="item.gradeName" :value="item.id" />
     </el-select>
     <br />
     <br />
     <br />
     <label style="margin-right:20px">所选班级:</label>
-    <el-select v-model="classId" placeholder="请选择" style="width:250px; border-radius:20px">
-        <el-option v-for="item in classData" :key="item.id" :label="item.className" :value="item.id"/>
+    <el-select v-model="className" placeholder="请选择班级" style="width:250px; border-radius:20px">
+        <el-option v-for="item in classData" :key="item.id" :label="item.className" :value="item.id" />
     </el-select>
     <br />
     <br />
     <br />
     <label style="margin-right:20px">所选分类:</label>
-    <el-select v-model="gradeName" @change="getGradeName" style="width:250px; border-radius:20px">
-        <el-option v-for="item in gradeDate" :key="item.value" :label="item.value" :value="item.value" />
+    <el-select v-model="subjectName" @change="getGradeName" placeholder="请选择课程分类" style="width:250px; border-radius:20px">
+        <el-option v-for="item in subjectData" :key="item.subjectName" :label="item.subjectName" :value="item.subjectName" />
     </el-select>
     <br />
     <br />
     <br />
 
     <label style="margin-right:20px">课程名称:</label>
-    <el-input style="width:250px; border-radius:20px" placeholder="请输入课程名称"></el-input>
+    <el-input  v-model="courseName" style="width:250px; border-radius:20px" placeholder="请输入课程名称"></el-input>
     <br />
     <br />
     <br />
@@ -51,6 +51,11 @@
     <el-form-item label="是否生效:" style="margin-left:57px">
         <el-switch v-model="ineffect" style="margin-left:20px" />
     </el-form-item>
+    <br />
+    <br />
+    <br />
+    <label style="margin-right:20px">上传封面:</label>
+
 </el-drawer>
 
 <Img />
@@ -71,15 +76,16 @@ export default {
             courseName: '',
             drawer: false,
             ineffect: 0,
-            gradeDate: [],  //年级信息
-            classData:[],   //班级信息
-            gradeId: '',
-            classId:''
-
+            gradeData: [], //年级信息
+            classData: [], //班级信息
+            subjectData: [], //学科信息
+            gradeName: '',
+            className: '',
+            subjectName: ''
         }
     },
 
-    mounted(){
+    mounted() {
         this.getGradeInfo();
     },
     methods: {
@@ -93,33 +99,50 @@ export default {
                 params: {
                     gradeName: '',
                     gradeDirectorId: '',
-                    page:0,
-                    pageSize:0
+                    page: 0,
+                    pageSize: 0
                 }
             }).then((res) => {
-                this.gradeDate=[];
-                res.result.list.forEach(item=>{
-                    this.gradeDate.push({
+                this.gradeData = [];
+                res.result.list.forEach(item => {
+                    this.gradeData.push({
                         ...item
-                    })      
+                    })
                 })
             })
         },
 
         //获取年级Id 用于获取该年级的班级
-        getClassInfo(gradeId){
-               this.$http.get('api/class/getClassByGradeId', {
+        getClassInfo(gradeId) {
+            this.className = '',
+                this.$http.get('api/class/getClassByGradeId', {
+                    params: {
+                        gradeId: gradeId
+                    }
+                }).then((res) => {
+                    this.classData = [];
+                    res.result.forEach(item => {
+                        this.classData.push({
+                            ...item
+                        })
+                    })
+                })
+        },
+
+        //获取学科信息
+        getSubjectInfo() {
+            this.$http.get('api/subject/getSubjectList', {
                 params: {
-                    gradeId:gradeId
                 }
             }).then((res) => {
-                this.classData=[];
-                res.result.forEach(item=>{
-                    this.classData.push({
-                        ...item
-                    })      
-                })
-            }) 
+                this.subjectData = [],
+                    res.result.list.forEach(element=> {
+                        this.subjectData.push({
+                            subjectName: element.subjectName
+                    })
+                    });
+                    console.log(this.subjectData);
+            })
         }
     }
 

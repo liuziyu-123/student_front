@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import Paging from '../../components/paging/index.vue';
+import Paging from '../../../components/paging/index.vue';
 import {
     Search
 } from '@icon-park/vue-next';

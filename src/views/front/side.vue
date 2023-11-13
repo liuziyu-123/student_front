@@ -9,34 +9,43 @@ export default {
         return {
 
             data: [{
+                    label: '主页',router:'home'     
+                },{
                     label: '系统管理',
-                    children: [{
-                        label: '角色管理',router:'home'},
+                    children: [{label: '角色管理',router:'home'},
                         {label: '年级管理',router:'grade'},
                         {label: '师生管理',router:'ts'},
                         {label: '学科管理',router:'subject'},
                          {label: '班级管理',router:'class'},
                          ],
-                },
-                {
+                },{
                     label: '学生管理',
-                    children: [{
-                            label: '课程管理',
-                            router:'studentCourse',
-                        },
-                        {
+                    children: [{label: '课程管理',router:'studentCourse',
+                        },{
                             label: 'Level two 2-2',
                             children: [{
                                 label: 'Level three 2-2-1',
                             }, ],
                         },
                     ],
-                },
-                {
+                },{
                     label: '教师管理',
                     children: [{
                             label: '课程管理',
                             router:'teacherCourse'
+                        },
+                        {
+                            label: 'Level two 3-2',
+                            children: [{
+                                label: 'Level three 3-2-1',
+                            }, ],
+                        },
+                    ],
+                },{
+                    label: '资源管理',
+                    children: [{
+                            label: '图片管理',
+                            router:'picture'
                         },
                         {
                             label: 'Level two 3-2',
@@ -68,6 +77,7 @@ export default {
 
 .side{
   height: 100vh;
+  font-size: 18;
 }
 
 .el-tree{
